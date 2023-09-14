@@ -13,28 +13,31 @@ packer {
 
 # Defines variables and default values.
 variable "gdb_version" {
-  type    = string
-  default = "10.3.2" # Default GraphDB version.
+  description = "GraphDB version to install and package"
+  type        = string
+  default     = "10.3.3"
 }
 
 variable "build_aws_regions" {
-  type    = list(string)
-  default = ["eu-central-1"] # Default AWS region.
+  description = "AWS regions where to publish the AMI"
+  type        = list(string)
+  default     = ["eu-central-1"]
 }
 
 variable "build_instance_type" {
-  type    = string
-  default = "m5.large" # Default EC2 instance type for the build.
+  description = "EC2 instance type to use for building the AMI"
+  type        = string
+  default     = "m5.large"
 }
 
 variable "build_vpc_id" {
-  type    = string
-  default = "" # Default VPC ID.
+  description = "VPC ID where the AMI will be built"
+  type        = string
 }
 
 variable "build_subnet_id" {
-  type    = string
-  default = "" # Default subnet ID.
+  description = "Subnet ID where the AMI will be built"
+  type        = string
 }
 
 # Defines a local variable to generate a timestamp for AMI naming.
@@ -48,7 +51,7 @@ source "amazon-ebs" "ubuntu" {
   instance_type = "${var.build_instance_type}"
   vpc_id        = "${var.build_vpc_id}"
   subnet_id     = "${var.build_subnet_id}"
-  ami_regions = "${var.build_aws_regions}"
+  ami_regions   = "${var.build_aws_regions}"
 
   # Specify the source AMI to use as a base.
   source_ami_filter {
@@ -65,7 +68,6 @@ source "amazon-ebs" "ubuntu" {
   ssh_username                = "ubuntu"
   associate_public_ip_address = true
   ssh_interface               = "public_ip"
-
 }
 
 build {
@@ -89,5 +91,4 @@ build {
     # Execute the GraphDB installation script.
     inline = ["sudo -E bash /tmp/install_graphdb.sh"]
   }
-
 }
