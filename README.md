@@ -32,11 +32,14 @@ Follow these steps to build an AMI for GraphDB using Packer:
    instance type, VPC ID, and subnet ID. To do so, create a variables file `variables.pkrvars.hcl`, example file: 
 
    ```bash
-   gdb_version  = "10.3.2"
+   gdb_version  = "10.3.3"
    build_aws_regions = ["eu-central-1"]
-   build_instance_type = "m5.large"
    build_vpc_id = "<your-vpc-id>"
    build_subnet_id = "<your-subnet-id>"
+   build_instance_type_x86-64    = "t3.small"
+   build_instance_type_arm64     = "t4g.small"
+   source_ami_name_filter_arm64  = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*"
+   source_ami_name_filter_x86-64 = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"
    ```
 
 4. **Build the AMI**:
@@ -60,9 +63,15 @@ The following points can be customized in a packer variables file `variables.pkr
 
 - **AWS Regions**: Modify the `build_aws_region` variable to specify a different AWS region.
 
-- **Instance Type**: Adjust the `build_instance_type` variable to select a different EC2 instance type.
+- **Instance Type**: Adjust the `build_instance_type_arm64` and `build_instance_type_x86-64` variables to select  
+  different EC2 instance types for building the AMI images.
 
 - **Network Configuration**: Update the `build_vpc_id` and `build_subnet_id` variables to match your VPC and subnet settings.
+
+  - **Source AMI**: Use the `source_ami_name_filter_arm64` and `source_ami_name_filter_x86-64` variables to specify the 
+    source ami name filter for each AMI, for example: 
+    - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*"` - Ubuntu with `arm64` architecture. 
+    - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"` - Ubuntu with `amd64` architecture.
 
 - **Provisioning Scripts**: You can replace or modify the provisioning scripts located in the `./files/` directory. 
   These scripts and files are copied and executed during the AMI creation process.
