@@ -2,6 +2,13 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## [1.2.0]
+
+- Added new configuration for AMI groups `ami_groups`
+- Changed `ssh_interface` to `session_manager`
+- Added `iam_instance_profile` variable required from the `session_manager` 
+- Added `Build_Timestamp` tag to the AMIs
+
 ## [1.1.0]
 
 - Added parallel building of `arm64` and `amd64` based AMIs

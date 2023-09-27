@@ -55,6 +55,16 @@ variable "source_ami_name_filter_x86-64" {
   default     = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"
 }
 
+variable "ami_groups" {
+  description = "Groups the AMI will be made available to"
+  type        = list(string)
+}
+
+variable "iam_instance_profile" {
+  description = "IAM instance profile for the SSM"
+  type        = string
+}
+
 # Local variable to generate a timestamp for unique AMI naming.
 locals {
   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
@@ -66,10 +76,12 @@ source "amazon-ebs" "ubuntu-x86-64" {
   vpc_id        = "${var.build_vpc_id}"
   subnet_id     = "${var.build_subnet_id}"
   ami_regions   = "${var.build_aws_regions}"
+  ami_groups    = "${var.ami_groups}"
 
   tags = {
     GDB_Version      = "${var.gdb_version}"
     CPU_Architecture = "x86-64"
+    Build_Timestamp  = "${local.timestamp}"
   }
 
   source_ami_filter {
@@ -84,7 +96,9 @@ source "amazon-ebs" "ubuntu-x86-64" {
 
   ssh_username                = "ubuntu"
   associate_public_ip_address = true
-  ssh_interface               = "public_ip"
+  ssh_interface               = "session_manager"
+  communicator                = "ssh"
+  iam_instance_profile        = "${var.iam_instance_profile}"
 }
 
 source "amazon-ebs" "ubuntu-arm64" {
@@ -93,10 +107,12 @@ source "amazon-ebs" "ubuntu-arm64" {
   vpc_id        = "${var.build_vpc_id}"
   subnet_id     = "${var.build_subnet_id}"
   ami_regions   = "${var.build_aws_regions}"
+  ami_groups    = "${var.ami_groups}"
 
   tags = {
     GDB_Version      = "${var.gdb_version}"
     CPU_Architecture = "arm64"
+    Build_Timestamp  = "${local.timestamp}"
   }
 
   source_ami_filter {
@@ -111,7 +127,9 @@ source "amazon-ebs" "ubuntu-arm64" {
 
   ssh_username                = "ubuntu"
   associate_public_ip_address = true
-  ssh_interface               = "public_ip"
+  ssh_interface               = "session_manager"
+  communicator                = "ssh"
+  iam_instance_profile        = "${var.iam_instance_profile}"
 }
 
 build {

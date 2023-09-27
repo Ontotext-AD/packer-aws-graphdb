@@ -66,6 +66,12 @@ The following points can be customized in a packer variables file `variables.pkr
 - **Instance Type**: Adjust the `build_instance_type_arm64` and `build_instance_type_x86-64` variables to select  
   different EC2 instance types for building the AMI images.
 
+- **AMI Groups**: You can specify the groups the AMIs will be made available to via the `ami_groups` variable.
+  A list of strings is accepted. 
+
+- **iam_instance_profile**: AIM Instance profile required for the session manager access. 
+  See https://developer.hashicorp.com/packer/integrations/hashicorp/amazon/latest/components/builder/ebs#session-manager-connections
+
 - **Network Configuration**: Update the `build_vpc_id` and `build_subnet_id` variables to match your VPC and subnet settings.
 
   - **Source AMI**: Use the `source_ami_name_filter_arm64` and `source_ami_name_filter_x86-64` variables to specify the 
