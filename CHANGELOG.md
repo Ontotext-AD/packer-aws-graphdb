@@ -4,7 +4,7 @@ All notable changes to the Packer template for creating GraphDB AMIs will be doc
 
 ## [1.1.0]
 
-- Added parallel building of `arm64` and `amd63` based AMIs
+- Added parallel building of `arm64` and `amd64` based AMIs
 - Added AWS cli to be installed based on the architecture
 - Added new variables for `arm64` instance type and source AMI  
 - Renamed `build_instance_type` and `build_instance_type` variables

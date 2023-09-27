@@ -9,11 +9,11 @@ done
 
 timedatectl set-timezone UTC
 
-# 1. Install Tools
-apt-get update -y
-apt-get -o DPkg::Lock::Timeout=300 install -y unzip jq nvme-cli openjdk-11-jdk bash-completion
+# Install Tools
+apt-get -o DPkg::Lock::Timeout=300 update -y
+apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli openjdk-11-jdk unzip
 
-# Get the server architecture
+# Get the server architecture and corresponding AWS CLI
 server_arch=$(uname -m)
 
 if [[ "$server_arch" == "x86_64" ]]; then
@@ -33,8 +33,13 @@ rm -rf ./awscliv2.zip ./aws
 useradd --comment "GraphDB Service User" --create-home --system --shell /bin/bash --user-group graphdb
 
 # Create GraphDB directories
-mkdir -p /var/opt/graphdb/data /var/opt/graphdb/logs /etc/graphdb /etc/graphdb-cluster-proxy /var/opt/graphdb-cluster-proxy/logs
+mkdir -p /etc/graphdb \
+         /etc/graphdb-cluster-proxy \
+         /var/opt/graphdb/data \
+         /var/opt/graphdb/logs \
+         /var/opt/graphdb-cluster-proxy/logs
 
+# Download and install GraphDB
 cd /tmp
 curl -O https://maven.ontotext.com/repository/owlim-releases/com/ontotext/graphdb/graphdb/"${GRAPHDB_VERSION}"/graphdb-"${GRAPHDB_VERSION}"-dist.zip
 
@@ -43,8 +48,15 @@ rm graphdb-"${GRAPHDB_VERSION}"-dist.zip
 mv graphdb-"${GRAPHDB_VERSION}" /opt/graphdb-"${GRAPHDB_VERSION}"
 ln -s /opt/graphdb-"${GRAPHDB_VERSION}" /opt/graphdb
 
-chown -R graphdb:graphdb /var/opt/graphdb/data /var/opt/graphdb/logs /etc/graphdb /opt/graphdb /opt/graphdb-${GRAPHDB_VERSION} /etc/graphdb-cluster-proxy /var/opt/graphdb-cluster-proxy/logs
+chown -R graphdb:graphdb /etc/graphdb \
+                         /etc/graphdb-cluster-proxy \
+                         /opt/graphdb \
+                         /opt/graphdb-${GRAPHDB_VERSION} \
+                         /var/opt/graphdb/data \
+                         /var/opt/graphdb/logs \
+                         /var/opt/graphdb-cluster-proxy/logs
 
+# Configure systemd for GraphDB and GraphDB proxy
 mv /tmp/graphdb.properties /etc/graphdb/graphdb.properties
 mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.service
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
