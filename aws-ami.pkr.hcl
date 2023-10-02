@@ -18,7 +18,7 @@ variable "gdb_version" {
 variable "build_aws_regions" {
   description = "AWS regions where to publish the AMI"
   type        = list(string)
-  default     = ["eu-central-1"]
+  default     = ["us-east-1"]
 }
 
 variable "build_instance_type_x86-64" {
@@ -77,6 +77,8 @@ source "amazon-ebs" "ubuntu-x86-64" {
   subnet_id     = "${var.build_subnet_id}"
   ami_regions   = "${var.build_aws_regions}"
   ami_groups    = "${var.ami_groups}"
+  encrypt_boot  = false
+  ebs_optimized = true
 
   tags = {
     GDB_Version      = "${var.gdb_version}"
@@ -108,6 +110,8 @@ source "amazon-ebs" "ubuntu-arm64" {
   subnet_id     = "${var.build_subnet_id}"
   ami_regions   = "${var.build_aws_regions}"
   ami_groups    = "${var.ami_groups}"
+  encrypt_boot  = false
+  ebs_optimized = true
 
   tags = {
     GDB_Version      = "${var.gdb_version}"

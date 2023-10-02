@@ -9,6 +9,9 @@ done
 
 timedatectl set-timezone UTC
 
+# Shred authorized_keys
+shred -u /root/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+
 # Install Tools
 apt-get -o DPkg::Lock::Timeout=300 update -y
 apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli openjdk-11-jdk unzip
@@ -58,6 +61,5 @@ mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
 
 systemctl daemon-reload
-
 systemctl enable graphdb.service
 systemctl start graphdb.service
