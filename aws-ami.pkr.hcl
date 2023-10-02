@@ -141,7 +141,6 @@ build {
 
   provisioner "file" {
     sources = [
-      "./files/graphdb.properties",
       "./files/graphdb.service",
       "./files/graphdb-cluster-proxy.service",
       "./files/install_graphdb.sh"

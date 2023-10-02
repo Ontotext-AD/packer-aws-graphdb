@@ -2,6 +2,15 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## [1.3.0]
+
+- Tuned GraphDB's max RAM percentage to allow bigger heap sizes
+- Limited the cluster proxy to 1GB heap at most
+- Configured GraphDB logs to be within GraphDB's data directory
+- Updated the directory structure under /var/opt/graphdb/
+- Properly configured the home directories of GraphDB and its proxy
+- Removed provisioning of graphdb.properties
+
 ## [1.2.0]
 
 - Added new configuration for AMI groups `ami_groups`

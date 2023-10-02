@@ -35,9 +35,8 @@ useradd --comment "GraphDB Service User" --create-home --system --shell /bin/bas
 # Create GraphDB directories
 mkdir -p /etc/graphdb \
          /etc/graphdb-cluster-proxy \
-         /var/opt/graphdb/data \
-         /var/opt/graphdb/logs \
-         /var/opt/graphdb-cluster-proxy/logs
+         /var/opt/graphdb/node \
+         /var/opt/graphdb/cluster-proxy
 
 # Download and install GraphDB
 cd /tmp
@@ -52,12 +51,9 @@ chown -R graphdb:graphdb /etc/graphdb \
                          /etc/graphdb-cluster-proxy \
                          /opt/graphdb \
                          /opt/graphdb-${GRAPHDB_VERSION} \
-                         /var/opt/graphdb/data \
-                         /var/opt/graphdb/logs \
-                         /var/opt/graphdb-cluster-proxy/logs
+                         /var/opt/graphdb
 
 # Configure systemd for GraphDB and GraphDB proxy
-mv /tmp/graphdb.properties /etc/graphdb/graphdb.properties
 mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.service
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
 
