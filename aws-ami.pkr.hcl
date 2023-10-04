@@ -147,7 +147,9 @@ build {
     sources = [
       "./files/graphdb.service",
       "./files/graphdb-cluster-proxy.service",
-      "./files/install_graphdb.sh"
+      "./files/install_graphdb.sh",
+      "./files/cloudwatch-agent-config.json",
+      "./files/prometheus.yaml"
     ]
     destination = "/tmp/"
   }

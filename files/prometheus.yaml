@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 1m
+  scrape_timeout: 10s
+scrape_configs:
+  - job_name: graphdb_infrastructure_monitor
+    metrics_path: /rest/monitor/infrastructure
+    scrape_interval: 10s
+    static_configs:
+      - targets: [ 'localhost:7200' ]
+  - job_name: graphdb_structures_monitor
+    metrics_path: /rest/monitor/structures
+    scrape_interval: 10s
+    static_configs:
+      - targets: [ 'localhost:7200' ]
+  - job_name: graphdb_cluster_monitor
+    metrics_path: /rest/monitor/cluster
+    scrape_interval: 10s
+    static_configs:
+      - targets: [ 'localhost:7200' ]
