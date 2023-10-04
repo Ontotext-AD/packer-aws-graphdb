@@ -10,6 +10,9 @@ All notable changes to the Packer template for creating GraphDB AMIs will be doc
 - Updated the directory structure under /var/opt/graphdb/
 - Properly configured the home directories of GraphDB and its proxy
 - Removed provisioning of graphdb.properties
+- Added `ebs_optimized` to be true 
+- Added `encrypt_boot` to be false
+- Added shredding of `/root/.ssh/authorized_keys` and `/home/ubuntu/.ssh/authorized_keys` 
 
 ## [1.2.0]
 
