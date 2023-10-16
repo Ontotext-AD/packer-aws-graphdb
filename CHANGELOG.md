@@ -7,6 +7,11 @@ All notable changes to the Packer template for creating GraphDB AMIs will be doc
 - Installed cloudwatch agent and its needed configurations to be able to push metrics
 - Added editorconfig to the project
 - Added `yq` utility
+- Moved variables block to variables.pkr.hcl
+- Moved plugins block to plugins.pkr.hcl
+- Moved build block to build.pkr.hcl
+- Updated README.md
+- Added `ssh_clear_authorized_keys` in favor of shredding them in the installation script.
 
 ## [1.3.0]
 
