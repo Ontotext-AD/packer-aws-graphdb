@@ -1,4 +1,4 @@
-# Contributing to GraphDB AWS Terraform Module
+# Contributing
 
 Here are a few guidelines to help you get started.
 
