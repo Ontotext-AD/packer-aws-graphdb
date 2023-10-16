@@ -6,6 +6,7 @@ All notable changes to the Packer template for creating GraphDB AMIs will be doc
 
 - Installed cloudwatch agent and its needed configurations to be able to push metrics
 - Added editorconfig to the project
+- Added `yq` utility
 
 ## [1.3.0]
 
