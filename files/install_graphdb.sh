@@ -14,7 +14,8 @@ shred -u /root/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 
 # Install Tools
 apt-get -o DPkg::Lock::Timeout=300 update -y
-apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq yq nvme-cli openjdk-11-jdk unzip
+apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli openjdk-11-jdk unzip
+snap install yq
 
 # Get the server architecture and corresponding AWS CLI
 server_arch=$(uname -m)
