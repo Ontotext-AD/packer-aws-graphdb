@@ -27,10 +27,10 @@ jobs:
           version: "${{ env.PACKER_VERSION }}"
 
       - name: Run Packer init
-        run: packer init *.pkr.hcl
+        run: packer init .
 
       - name: Run Packer format check
-        run: packer fmt -check -recursive *.pkr.hcl
+        run: packer fmt -check -recursive .
 
       - name: Run Packer validate check
-        run: packer validate -syntax-only *.pkr.hcl
+        run: packer validate -syntax-only .
