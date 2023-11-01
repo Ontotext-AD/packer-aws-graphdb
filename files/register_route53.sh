@@ -10,7 +10,7 @@ done
 # Register the instance in Route 53, using the volume id for the sub-domain
   volume_id=$(
     aws --cli-connect-timeout 300 ec2 describe-volumes \
-      --filters "Name=status,Values=available" "Name=availability-zone,Values=$availability_zone" "Name=tag:Name,Values=${name}-graphdb-data" \
+      --filters "Name=availability-zone,Values=$availability_zone" "Name=tag:Name,Values=${name}-graphdb-data" \
       --query "Volumes[*].{ID:VolumeId}" \
       --output text | \
       sed '/^$/d'
