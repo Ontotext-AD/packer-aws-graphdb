@@ -25,7 +25,7 @@ for i in $(seq 1 6); do
       --output text | \
       sed '/^$/d'
   )
-
+  
   if [ -z "${volume_id:-}" ]; then
     echo 'ebs volume not yet available'
     sleep 10
@@ -36,9 +36,12 @@ done
 
 if [ -z "${volume_id:-}" ]; then
 
-# If the volume type is GP3, then we need to provide a value for the "throughput" parameter.
- if [ "${ebs_volume_type}" == "gp3"] || ["${ebs_volume_type}" == "gp2" ]; then
-      volume_id=$(
+throughput_option="--throughput ${ebs_volume_throughput}"
+if [ "${ebs_volume_type}" != "gp3" ] || [ "${ebs_volume_type}" != "gp2" ]; then
+    throughput_option=""
+fi
+
+volume_id=$(
         aws --cli-connect-timeout 300 ec2 create-volume \
           --availability-zone "$availability_zone" \
           --encrypted \
@@ -46,23 +49,10 @@ if [ -z "${volume_id:-}" ]; then
           --volume-type "${ebs_volume_type}" \
           --size "${ebs_volume_size}" \
           --iops "${ebs_volume_iops}" \
-          --throughput "${ebs_volume_throughput}" \
+          ${throughput_option:-} \
           --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=${name}-graphdb-data}]" | \
           jq -r .VolumeId
-      )
-    else
-      volume_id=$(
-        aws --cli-connect-timeout 300 ec2 create-volume \
-          --availability-zone "$availability_zone" \
-          --encrypted \
-          --kms-key-id "${ebs_kms_key_arn}" \
-          --volume-type "${ebs_volume_type}" \
-          --size "${ebs_volume_size}" \
-          --iops "${ebs_volume_iops}" \
-          --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=${name}-graphdb-data}]" | \
-          jq -r .VolumeId
-      )
-    fi
+  )        
 
   aws --cli-connect-timeout 300 ec2 wait volume-available --volume-ids "$volume_id"
 fi
