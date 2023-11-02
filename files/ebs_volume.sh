@@ -36,8 +36,10 @@ done
 
 if [ -z "${volume_id:-}" ]; then
 
-throughput_option="--throughput ${ebs_volume_throughput}"
-if [ "${ebs_volume_type}" != "gp3" ] || [ "${ebs_volume_type}" != "gp2" ]; then
+throughput_option=""
+if [ "${ebs_volume_type}" = "gp3" ] || [ "${ebs_volume_type}" = "gp2" ]; then
+    throughput_option="--throughput ${ebs_volume_throughput}"
+else
     throughput_option=""
 fi
 
