@@ -54,5 +54,4 @@ rotate_backups
 EOF
 
 chmod +x /usr/bin/graphdb_backup
-# This cron expression schedules the job to run every day at midnight, without any restrictions on the day of the month, month, or day of the week.
-echo "0 0 * * * root ${backup_name} graphdb /usr/bin/graphdb_backup" | sudo tee /etc/cron.d/graphdb_backup
+echo "${backup_schedule} graphdb /usr/bin/graphdb_backup" > /etc/cron.d/graphdb_backup
