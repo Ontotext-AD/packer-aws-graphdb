@@ -12,6 +12,7 @@ build {
       "./files/install_graphdb.sh",
       "./files/cloudwatch-agent-config.json",
       "./files/prometheus.yaml"
+      "./files/gdb_environments"
     ]
     destination = "/tmp/"
   }
