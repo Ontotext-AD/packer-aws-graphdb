@@ -62,6 +62,7 @@ chown -R graphdb:graphdb /etc/graphdb \
 # Configure systemd for GraphDB and GraphDB proxy
 mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.service
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
+mv /tmp/graphdb.env /etc/graphdb/graphdb.env
 
 # Move the prometheus and cloudwatch configurations
 mkdir "/etc/prometheus"
