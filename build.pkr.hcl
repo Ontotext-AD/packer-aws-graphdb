@@ -19,7 +19,7 @@ build {
     destination = "/tmp/"
   }
 
- provisioner "file" {
+  provisioner "file" {
     sources = [
       "./files/ebs_volume.sh",
       "./files/register_route53.sh",
