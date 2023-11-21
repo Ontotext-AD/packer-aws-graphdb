@@ -19,6 +19,15 @@ build {
     destination = "/tmp/"
   }
 
+ provisioner "file" {
+    sources = [
+      "./files/ebs_volume.sh",
+      "./files/register_route53.sh",
+      "./files/create_backup.sh"
+    ]
+    destination = "/opt/helper-scripts/"
+  }
+
   provisioner "shell" {
     environment_vars = [
       "GRAPHDB_VERSION=${var.gdb_version}",
