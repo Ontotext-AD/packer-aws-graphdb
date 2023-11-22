@@ -12,27 +12,24 @@ build {
       "./files/install_graphdb.sh",
       "./files/cloudwatch-agent-config.json",
       "./files/prometheus.yaml",
-      "./files/create_backup.sh",
-      "./files/ebs_volume.sh",
-      "./files/register_route53.sh"
-    ]
-    destination = "/tmp/"
-  }
-
-  provisioner "file" {
-    sources = [
       "./files/ebs_volume.sh",
       "./files/register_route53.sh",
       "./files/create_backup.sh"
     ]
-    destination = "/opt/"
+    destination = "/tmp/"
   }
 
   provisioner "shell" {
     environment_vars = [
       "GRAPHDB_VERSION=${var.gdb_version}",
     ]
-    inline      = ["sudo -E bash /tmp/install_graphdb.sh"]
+    inline      = [
+      "sudo -E bash /tmp/install_graphdb.sh",
+      "sudo mkdir -p /opt/helper-scripts/",
+      "sudo cp /tmp/ebs_volume.sh /opt/helper-scripts/",
+      "sudo cp /tmp/register_route53.sh /opt/helper-scripts/",
+      "sudo cp /tmp/create_backup.sh /opt/helper-scripts/",
+    ]
     max_retries = 3
   }
 }
