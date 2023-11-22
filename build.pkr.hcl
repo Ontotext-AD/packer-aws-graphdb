@@ -25,7 +25,7 @@ build {
       "./files/register_route53.sh",
       "./files/create_backup.sh"
     ]
-    destination = "/opt/helper-scripts/"
+    destination = "/opt/"
   }
 
   provisioner "shell" {
