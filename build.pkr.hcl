@@ -26,9 +26,9 @@ build {
     inline      = [
       "sudo -E bash /tmp/install_graphdb.sh",
       "sudo mkdir -p /opt/helper-scripts/",
-      "sudo cp /tmp/ebs_volume.sh /opt/helper-scripts/",
-      "sudo cp /tmp/register_route53.sh /opt/helper-scripts/",
-      "sudo cp /tmp/create_backup.sh /opt/helper-scripts/",
+      "sudo cp /tmp/ebs_volume.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/ebs_volume.sh",
+      "sudo cp /tmp/register_route53.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/register_route53.sh",
+      "sudo cp /tmp/create_backup.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/create_backup.sh",
     ]
     max_retries = 3
   }
