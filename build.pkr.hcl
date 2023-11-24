@@ -23,7 +23,7 @@ build {
     environment_vars = [
       "GRAPHDB_VERSION=${var.gdb_version}",
     ]
-    inline      = [
+    inline = [
       "sudo -E bash /tmp/install_graphdb.sh",
       "sudo mkdir -p /opt/helper-scripts/",
       "sudo cp /tmp/ebs_volume.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/ebs_volume.sh",
