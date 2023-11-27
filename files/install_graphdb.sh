@@ -63,6 +63,12 @@ chown -R graphdb:graphdb /etc/graphdb \
 mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.service
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
 
+# Move the helpers scripts
+sudo mkdir -p /opt/helper-scripts/
+sudo cp /tmp/ebs_volume.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/ebs_volume.sh
+sudo cp /tmp/register_route53.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/register_route53.sh
+sudo cp /tmp/create_backup.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/create_backup.sh
+
 # Move the prometheus and cloudwatch configurations
 mkdir "/etc/prometheus"
 mv /tmp/prometheus.yaml /etc/prometheus/prometheus.yaml
