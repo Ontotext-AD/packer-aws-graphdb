@@ -23,7 +23,7 @@ build {
     environment_vars = [
       "GRAPHDB_VERSION=${var.gdb_version}",
     ]
-    inline = ["sudo -E bash /tmp/install_graphdb.sh",]
+    inline      = ["sudo -E bash /tmp/install_graphdb.sh", ]
     max_retries = 3
   }
 }
