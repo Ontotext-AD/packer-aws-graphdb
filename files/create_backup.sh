@@ -15,13 +15,13 @@ while [[ "$#" -gt 0 ]]; do
     --backup_bucket_name) backup_bucket_name="$2"; shift ;;
     --backup_retention_count) backup_retention_count="$2"; shift ;;
     --backup_schedule) backup_schedule="$2"; shift;;
-    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    *) directories+=("$1") ;;
   esac
   shift
 done
 
 # Configure the GraphDB backup cron job
-cat <<-EOF > /usr/bin/graphdb_backup
+cat <<-EOF > /usr/bin/graphdb_backup.sh
 #!/bin/bash
 
 set -euxo pipefail
@@ -80,5 +80,5 @@ rotate_backups
 
 EOF
 
-chmod +x /usr/bin/graphdb_backup
+chmod +x /usr/bin/graphdb_backup.sh
 echo "${backup_schedule} graphdb /usr/bin/graphdb_backup" > /etc/cron.d/graphdb_backup
