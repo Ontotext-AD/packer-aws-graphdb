@@ -1,11 +1,37 @@
 #!/usr/bin/env bash
 
-# Configure the GraphDB backup cron job
+# Define variables
+region=""
+name=""
+backup_bucket_name=""
+backup_retention_count=""
+backup_schedule=""
 
+# Parse command line arguments
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --region) region="$2"; shift ;;
+    --name) name="$2"; shift ;;
+    --backup_bucket_name) backup_bucket_name="$2"; shift ;;
+    --backup_retention_count) backup_retention_count="$2"; shift ;;
+    --backup_schedule) backup_schedule="$2"; shift;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
+
+# Configure the GraphDB backup cron job
 cat <<-EOF > /usr/bin/graphdb_backup
 #!/bin/bash
 
 set -euxo pipefail
+
+# Use the values from the variables
+region="$region"
+name="$name"
+backup_bucket_name="$backup_bucket_name"
+backup_retention_count="$backup_retention_count"
+backup_schedule="$backup_schedule"
 
 GRAPHDB_CONNECTOR_PORT="${GRAPHDB_CONNECTOR_PORT:-7201}"
 GRAPHDB_ADMIN_PASSWORD="\$(aws --cli-connect-timeout 300 ssm get-parameter --region ${region} --name "/${name}/graphdb/admin_password" --with-decryption | jq -r .Parameter.Value)"

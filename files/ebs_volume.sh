@@ -12,6 +12,28 @@ imds_token=$( curl -Ss -H "X-aws-ec2-metadata-token-ttl-seconds: 300" -XPUT 169.
 instance_id=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/instance-id )
 availability_zone=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/placement/availability-zone )
 volume_id=""
+name=""
+ebs_volume_type=""
+ebs_volume_throughput=""
+ebs_kms_key_arn=""
+ebs_volume_size=""
+ebs_volume_iops=""
+device_name=""
+
+# Parse command line arguments
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --name) name="$2"; shift ;;
+    --ebs_volume_type) ebs_volume_type="$2"; shift ;;
+    --ebs_volume_throughput) ebs_volume_throughput="$2"; shift ;;
+    --ebs_kms_key_arn) ebs_kms_key_arn="$2"; shift ;;
+    --ebs_volume_size) ebs_volume_size="$2"; shift ;;
+    --ebs_volume_iops) ebs_volume_iops="$2"; shift ;;
+    --device_name) device_name="$2"; shift ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
 
 # Search for an available EBS volume to attach to the instance. Wait one minute for a volume to become available,
 # if no volume is found - create new one, attach, format and mount the volume.

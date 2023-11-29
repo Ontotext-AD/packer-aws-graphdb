@@ -10,6 +10,20 @@ done
 imds_token=$( curl -Ss -H "X-aws-ec2-metadata-token-ttl-seconds: 300" -XPUT 169.254.169.254/latest/api/token )
 availability_zone=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/placement/availability-zone )
 local_ipv4=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/local-ipv4 )
+name=""
+zone_dns_name=""
+zone_id=""
+
+# Parse command line arguments
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --name) name="$2"; shift ;;
+    --zone_dns_name) zone_dns_name="$2"; shift ;;
+    --zone_id) zone_id="$2"; shift ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
 
 # Register the instance in Route 53, using the volume id for the sub-domain
   volume_id=$(
