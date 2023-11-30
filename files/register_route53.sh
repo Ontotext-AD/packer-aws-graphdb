@@ -43,4 +43,5 @@ aws --cli-connect-timeout 300 route53 change-resource-record-sets \
 
 hostnamectl set-hostname "$node_dns"
 
-echo "Instance registered in Route 53 with DNS name: $node_dns"
+echo "Instance registered in Route 53 with DNS name:"
+echo "$node_dns"
