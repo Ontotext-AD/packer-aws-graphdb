@@ -14,6 +14,7 @@ local_ipv4=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.25
 name=""
 zone_dns_name=""
 zone_id=""
+volume_id=""
 
 # Parse command line arguments
 while [[ "$#" -gt 0 ]]; do
