@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Define variables
+# Set common variables used throughout the script.
 region=""
 name=""
 backup_bucket_name=""
