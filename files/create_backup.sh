@@ -33,7 +33,7 @@ backup_bucket_name="$backup_bucket_name"
 backup_retention_count="$backup_retention_count"
 backup_schedule="$backup_schedule"
 
-GRAPHDB_CONNECTOR_PORT="${GRAPHDB_CONNECTOR_PORT:-7201}"
+GRAPHDB_CONNECTOR_PORT="\${GRAPHDB_CONNECTOR_PORT:-7200}"
 GRAPHDB_ADMIN_PASSWORD="\$(aws --cli-connect-timeout 300 ssm get-parameter --region ${region} --name "/${name}/graphdb/admin_password" --with-decryption | jq -r .Parameter.Value)"
 NODE_STATE="\$(curl --silent --fail --user "admin:\$GRAPHDB_ADMIN_PASSWORD" localhost:${GRAPHDB_CONNECTOR_PORT}/rest/cluster/node/status | jq -r .nodeState)"
 

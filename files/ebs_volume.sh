@@ -2,11 +2,6 @@
 
 set -euxo pipefail
 
-until ping -c 1 google.com &> /dev/null; do
-  echo "waiting for outbound connectivity"
-  sleep 5
-done
-
 # Set common variables used throughout the script.
 imds_token=$( curl -Ss -H "X-aws-ec2-metadata-token-ttl-seconds: 300" -XPUT 169.254.169.254/latest/api/token )
 instance_id=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/instance-id )
