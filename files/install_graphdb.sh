@@ -64,10 +64,10 @@ mv /tmp/graphdb-cluster-proxy.service /lib/systemd/system/graphdb-cluster-proxy.
 mv /tmp/graphdb.service /lib/systemd/system/graphdb.service
 
 # Move the helpers scripts
-sudo mkdir -p /opt/helper-scripts/
-sudo mv /tmp/ebs_volume.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/ebs_volume.sh
-sudo mv /tmp/register_route53.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/register_route53.sh
-sudo mv /tmp/create_backup.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/create_backup.sh
+mkdir -p /opt/helper-scripts/
+mv /tmp/ebs_volume.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/ebs_volume.sh
+mv /tmp/register_route53.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/register_route53.sh
+mv /tmp/create_backup.sh /opt/helper-scripts/ ; sudo chmod +x /opt/helper-scripts/create_backup.sh
 
 # Move the prometheus and cloudwatch configurations
 mkdir "/etc/prometheus"
