@@ -15,7 +15,7 @@ while [[ "$#" -gt 0 ]]; do
     --backup_bucket_name) backup_bucket_name="$2"; shift ;;
     --backup_retention_count) backup_retention_count="$2"; shift ;;
     --backup_schedule) backup_schedule="$2"; shift;;
-    *) directories+=("$1") ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
   esac
   shift
 done
