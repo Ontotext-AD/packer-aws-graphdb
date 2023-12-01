@@ -11,7 +11,10 @@ build {
       "./files/graphdb-cluster-proxy.service",
       "./files/install_graphdb.sh",
       "./files/cloudwatch-agent-config.json",
-      "./files/prometheus.yaml"
+      "./files/prometheus.yaml",
+      "./files/ebs_volume.sh",
+      "./files/register_route53.sh",
+      "./files/create_backup.sh"
     ]
     destination = "/tmp/"
   }
