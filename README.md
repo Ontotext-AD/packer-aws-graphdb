@@ -35,15 +35,16 @@ Follow these steps to build an AMI for GraphDB using Packer:
    The Packer configuration allows you to customize various parameters, such as the GraphDB version, AWS region,
    instance type, VPC ID, and subnet ID. To do so, create a variables file `variables.pkrvars.hcl`, example file:
     ```bash
-    gdb_version                   = "10.3.3"
-    build_aws_regions             = ["us-east-1"]
+    graphdb_version               = "10.3.3"
+    ami_regions                   = ["us-east-1"]
     build_vpc_id                  = "<your-vpc-id>"
     build_subnet_id               = "<your-subnet-id>"
+    build_iam_instance_profile    = "<your-instance-profile>"
     ami_groups                    = []                                                    # Value "all" will make the AMI public
-    build_instance_type_x86-64    = "t3.small"                                            # default
+    build_instance_type_x86_64    = "t3.small"                                            # default
     build_instance_type_arm64     = "t4g.small"                                           # default
     source_ami_name_filter_arm64  = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*" # default
-    source_ami_name_filter_x86-64 = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*" # default
+    source_ami_name_filter_x86_64 = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*" # default
    ```
 
 4. **Build the AMI**:
@@ -60,16 +61,16 @@ Follow these steps to build an AMI for GraphDB using Packer:
 You can customize the Packer configuration and provisioning scripts to suit your specific requirements.
 
 The following points can be customized in a packer variables file `variables.pkrvars.hcl`:
-- **GraphDB Version**: You can change the GraphDB version by modifying the `gdb_version` variable file.
-- **AWS Regions**: Modify the `build_aws_region` variable to specify a different AWS region.
-- **Instance Type**: Adjust the `build_instance_type_arm64` and `build_instance_type_x86-64` variables to select
+- **GraphDB Version**: You can change the GraphDB version by modifying the `graphdb_version` variable.
+- **AWS Regions**: Modify the `build_region` variable to specify a different AWS region.
+- **Instance Type**: Adjust the `build_instance_type_arm64` and `build_instance_type_x86_64` variables to select
   different EC2 instance types for building the AMI images.
 - **AMI Groups**: You can specify the groups the AMIs will be made available to via the `ami_groups` variable.
   A list of strings is accepted.
-- **iam_instance_profile**: AIM Instance profile required for the session manager access.
+- **build_iam_instance_profile**: AIM Instance profile required for the session manager access.
   See https://developer.hashicorp.com/packer/integrations/hashicorp/amazon/latest/components/builder/ebs#session-manager-connections
 - **Network Configuration**: Update the `build_vpc_id` and `build_subnet_id` variables to match your VPC and subnet settings.
-- **Source AMI**: Use the `source_ami_name_filter_arm64` and `source_ami_name_filter_x86-64` variables to specify the
+- **Source AMI**: Use the `source_ami_name_filter_arm64` and `source_ami_name_filter_x86_64` variables to specify the
     source ami name filter for each AMI, for example:
     - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*"` - Ubuntu with `arm64` architecture.
     - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"` - Ubuntu with `amd64` architecture.
