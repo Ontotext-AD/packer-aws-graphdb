@@ -10,7 +10,13 @@ done
 timedatectl set-timezone UTC
 
 # Install Tools
-apt-get -o DPkg::Lock::Timeout=300 update -y
+while sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+    echo "Waiting for other apt operations to complete..."
+    sleep 1
+done
+
+sudo apt-get update -y
+
 apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli openjdk-11-jdk unzip
 snap install yq
 
