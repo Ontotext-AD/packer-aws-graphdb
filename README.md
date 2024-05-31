@@ -1,4 +1,4 @@
-# Packer Configuration for Creating GraphDB AMI
+# Packer Configuration for Creating GraphDB Ubuntu AMI
 
 This guide explains how to use Packer to create an Amazon Machine Image (AMI) for GraphDB.
 The Packer configuration in this repository automates the process of installing and configuring GraphDB on an Ubuntu-based EC2 instance.
@@ -35,7 +35,7 @@ Follow these steps to build an AMI for GraphDB using Packer:
    The Packer configuration allows you to customize various parameters, such as the GraphDB version, AWS region,
    instance type, VPC ID, and subnet ID. To do so, create a variables file `variables.pkrvars.hcl`, example file:
     ```bash
-    graphdb_version               = "10.3.3"
+    graphdb_version               = "10.6.3"
     ami_regions                   = ["us-east-1"]
     build_vpc_id                  = "<your-vpc-id>"
     build_subnet_id               = "<your-subnet-id>"
@@ -76,6 +76,47 @@ The following points can be customized in a packer variables file `variables.pkr
     - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"` - Ubuntu with `amd64` architecture.
 - **Provisioning Scripts**: You can replace or modify the provisioning scripts located in the `./files/` directory.
   These scripts and files are copied and executed during the AMI creation process.
+
+## Building an AMI based on Amazon Linux
+
+This guide provides step-by-step instructions for building your own Amazon Linux AMI image.
+Follow the instructions below to configure and build the image successfully.
+
+### Step-by-Step Instructions
+
+To build an AMI based on Amazon Linux you need to update the install_graphdb.sh script.
+This script installs necessary tools and configures the environment. Follow these steps to modify the script:
+
+1. Open the install_graphdb.sh script in a text editor.
+2. Replace the existing content between lines 12-36 with the following code:
+
+```bash
+# Install Tools
+yum update -y
+yum install -y java-11-amazon-corretto
+
+# Get the server architecture and corresponding AWS CLI
+server_arch=$(uname -m)
+
+if [[ "$server_arch" == "x86_64" ]]; then
+  curl "https://amazoncloudwatch-agent.s3.amazonaws.com/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm" -o "amazon-cloudwatch-agent.rpm"
+elif [[ "$server_arch" == "aarch64" ]]; then
+  curl "https://amazoncloudwatch-agent.s3.amazonaws.com/amazon_linux/arm64/latest/amazon-cloudwatch-agent.rpm" -o "amazon-cloudwatch-agent.rpm"
+else
+  echo "Unknown server architecture: $server_arch."
+  exit 1
+fi
+
+yum install -y ./amazon-cloudwatch-agent.rpm
+rm amazon-cloudwatch-agent.rpm
+```
+
+3. Update variables.pkrvars.hcl values for source_ami_name_filter_arm64 and source_ami_name_filter_x86_64 as shown below:
+
+```hcl
+source_ami_name_filter_arm64  = "amzn2-ami-hvm-*-arm64-gp2"
+source_ami_name_filter_x86_64 = "amzn2-ami-hvm-*-x86_64-gp2"
+```
 
 ## Support
 
