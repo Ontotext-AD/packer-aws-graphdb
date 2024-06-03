@@ -5,7 +5,7 @@
 variable "graphdb_version" {
   description = "GraphDB version to install and package as an AMI"
   type        = string
-  default     = "10.6.1"
+  default     = "10.6.3"
 }
 
 ####################
