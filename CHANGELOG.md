@@ -2,6 +2,10 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## 1.5.1
+
+- Disabled the GraphDB JS plugin by default (GDB-11622)
+
 ## 1.5.0
 
 - Restructured the sources and grouped the variables
@@ -18,7 +22,7 @@ All notable changes to the Packer template for creating GraphDB AMIs will be doc
   - `ami_org_arns` and `ami_ou_arns` for additional access control
   - `ami_tags` and `build_tags` for extra AMI tags
   - `build_region` to specify the exact region where AMIs are built
-  - `build_assign_public_ip_address`, `build_security_group_cidrs` and `build_security_group_source_public_ip` to control the public access 
+  - `build_assign_public_ip_address`, `build_security_group_cidrs` and `build_security_group_source_public_ip` to control the public access
     to the build EC2 instances
   - `user_data_file` to provide custom user data script
   - `ssh_interface` and `ssh_username` to control how remote access is established
