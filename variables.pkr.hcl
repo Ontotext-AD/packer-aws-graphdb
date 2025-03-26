@@ -43,7 +43,7 @@ variable "shared_credentials_file_profile" {
 variable "source_ami_name_filter_x86_64" {
   description = "Name filter for the source x86-64 AMI image"
   type        = string
-  default     = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"
+  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-amd64-server-*"
 }
 
 variable "source_ami_owners_x86_64" {
@@ -55,7 +55,7 @@ variable "source_ami_owners_x86_64" {
 variable "source_ami_name_filter_arm64" {
   description = "Name filter for the source arm64 AMI image"
   type        = string
-  default     = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*"
+  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-arm64-server-*"
 }
 
 variable "source_ami_owners_arm64" {
