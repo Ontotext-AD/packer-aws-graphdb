@@ -43,8 +43,8 @@ Follow these steps to build an AMI for GraphDB using Packer:
     ami_groups                    = []                                                    # Value "all" will make the AMI public
     build_instance_type_x86_64    = "t3.small"                                            # default
     build_instance_type_arm64     = "t4g.small"                                           # default
-    source_ami_name_filter_arm64  = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*" # default
-    source_ami_name_filter_x86_64 = "ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*" # default
+    source_ami_name_filter_arm64  = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-arm64-server-*" # default
+    source_ami_name_filter_x86_64 = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-amd64-server-*" # default
    ```
 
 4. **Build the AMI**:
@@ -72,8 +72,8 @@ The following points can be customized in a packer variables file `variables.pkr
 - **Network Configuration**: Update the `build_vpc_id` and `build_subnet_id` variables to match your VPC and subnet settings.
 - **Source AMI**: Use the `source_ami_name_filter_arm64` and `source_ami_name_filter_x86_64` variables to specify the
     source ami name filter for each AMI, for example:
-    - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-arm64-server-*"` - Ubuntu with `arm64` architecture.
-    - `"ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"` - Ubuntu with `amd64` architecture.
+    - `"ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-arm64-server-*"` - Ubuntu with `arm64` architecture.
+    - `"ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-amd64-server-*"` - Ubuntu with `amd64` architecture.
 - **Provisioning Scripts**: You can replace or modify the provisioning scripts located in the `./files/` directory.
   These scripts and files are copied and executed during the AMI creation process.
 

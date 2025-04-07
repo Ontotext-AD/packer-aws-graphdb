@@ -9,9 +9,14 @@ done
 
 timedatectl set-timezone UTC
 
+# Temurin setup
+echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print $2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+mkdir -p /etc/apt/keyrings
+wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | tee /etc/apt/keyrings/adoptium.asc
+
 # Install Tools
 apt-get -o DPkg::Lock::Timeout=300 update -y
-apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli openjdk-11-jdk unzip
+apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli temurin-21-jdk unzip
 snap install yq
 
 # Get the server architecture and corresponding AWS CLI
