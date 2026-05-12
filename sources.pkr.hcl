@@ -3,18 +3,23 @@ locals {
   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
 }
 
-data "amazon-ami" "ubuntu_x86_64" {
-  filters = {
-    name                = var.source_ami_name_filter_x86_64
-    root-device-type    = "ebs"
-    virtualization-type = "hvm"
-  }
-  most_recent = true
-  owners      = var.source_ami_owners_x86_64
-}
-
 source "amazon-ebs" "ubuntu_x86_64" {
   skip_create_ami = var.skip_create_ami
+
+  #
+  # Source AMI discovery
+  #
+  source_ami_filter {
+    filters = {
+      name                = var.source_ami_name_filter_x86_64
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+      architecture        = "x86_64"
+
+    }
+    most_recent = true
+    owners      = var.source_ami_owners_x86_64
+  }
 
   #
   # AMI configurations
@@ -56,7 +61,6 @@ source "amazon-ebs" "ubuntu_x86_64" {
   subnet_id = var.build_subnet_id
 
   instance_type        = var.build_instance_type_x86_64
-  source_ami           = data.amazon-ami.ubuntu_x86_64.id
   iam_instance_profile = var.build_iam_instance_profile
   user_data_file       = var.user_data_file
 
@@ -71,22 +75,26 @@ source "amazon-ebs" "ubuntu_x86_64" {
   #
   communicator              = "ssh"
   ssh_interface             = var.ssh_interface
-  ssh_username              = "ubuntu"
+  ssh_username              = var.ssh_username
   ssh_clear_authorized_keys = true
-}
-
-data "amazon-ami" "ubuntu_arm64" {
-  filters = {
-    name                = var.source_ami_name_filter_arm64
-    root-device-type    = "ebs"
-    virtualization-type = "hvm"
-  }
-  most_recent = true
-  owners      = var.source_ami_owners_arm64
 }
 
 source "amazon-ebs" "ubuntu_arm64" {
   skip_create_ami = var.skip_create_ami
+
+  #
+  # Source AMI discovery
+  #
+  source_ami_filter {
+    filters = {
+      name                = var.source_ami_name_filter_arm64
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+      architecture        = "arm64"
+    }
+    most_recent = true
+    owners      = var.source_ami_owners_arm64
+  }
 
   #
   # AMI configurations
@@ -128,7 +136,6 @@ source "amazon-ebs" "ubuntu_arm64" {
   subnet_id = var.build_subnet_id
 
   instance_type        = var.build_instance_type_arm64
-  source_ami           = data.amazon-ami.ubuntu_arm64.id
   iam_instance_profile = var.build_iam_instance_profile
   user_data_file       = var.user_data_file
 
@@ -143,6 +150,6 @@ source "amazon-ebs" "ubuntu_arm64" {
   #
   communicator              = "ssh"
   ssh_interface             = var.ssh_interface
-  ssh_username              = "ubuntu"
+  ssh_username              = var.ssh_username
   ssh_clear_authorized_keys = true
 }

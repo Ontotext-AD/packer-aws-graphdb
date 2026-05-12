@@ -2,6 +2,20 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## 1.8.0
+
+- Updated the GraphDB cluster proxy service to use an env file similar to the main GraphDB service
+- Added manifest post-processor to create a manifest JSON with the AMI IDs
+- Renamed the pkr.hcl files to follow a naming convention closer to Terraform
+- Replaced hardcoded ssh_username values with the corresponding variable
+- Added retry count variable for the build provisioner
+- Added a security hardening script that disables modules susceptible to attacks (copy fail, dirty flag)
+- Separated the shell scripts to be in stages (setup, hardening, graphdb)
+- Restructured the build provisioner
+- Updated the setup script to be more robust during retries
+- Narrowed down the AMI filters to be more specific and to use the correct architecture
+- Moved the AMI filters inside the source blocks to make use of the region awareness
+
 ## 1.7.0
 
 - Updated Ubuntu version to 24.04 LTS
