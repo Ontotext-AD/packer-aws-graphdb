@@ -7,12 +7,12 @@ build {
 
   provisioner "file" {
     sources = [
-      "./files/graphdb.service",
-      "./files/graphdb-cluster-proxy.service",
-      "./files/install_graphdb.sh",
       "./files/cloudwatch-agent-config.json",
+      "./files/graphdb.env",
+      "./files/graphdb.service",
+      "./files/graphdb-cluster-proxy.env",
+      "./files/graphdb-cluster-proxy.service",
       "./files/prometheus.yaml",
-      "./files/graphdb.env"
     ]
     destination = "/tmp/"
   }
@@ -21,7 +21,25 @@ build {
     environment_vars = [
       "GRAPHDB_VERSION=${var.graphdb_version}",
     ]
-    inline      = ["sudo -E bash /tmp/install_graphdb.sh"]
-    max_retries = 3
+    execute_command = "{{ .Vars }} sudo -E bash '{{ .Path }}'"
+    scripts = [
+      "./files/1-setup.sh",
+      "./files/2-hardening.sh",
+      "./files/3-install-graphdb.sh",
+    ]
+
+    max_retries = var.build_retries
+  }
+
+  provisioner "breakpoint" {
+    disable = !var.build_breakpoint_enabled
+    note    = "Paused for debugging — SSH in now"
+  }
+
+  post-processor "manifest" {
+    output = var.manifest_path
+    custom_data = {
+      graphdb_version = var.graphdb_version
+    }
   }
 }

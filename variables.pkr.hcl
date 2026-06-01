@@ -5,7 +5,6 @@
 variable "graphdb_version" {
   description = "GraphDB version to install and package as an AMI"
   type        = string
-  default     = "10.6.3"
 }
 
 ####################
@@ -43,7 +42,7 @@ variable "shared_credentials_file_profile" {
 variable "source_ami_name_filter_x86_64" {
   description = "Name filter for the source x86-64 AMI image"
   type        = string
-  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-amd64-server-*"
+  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
 }
 
 variable "source_ami_owners_x86_64" {
@@ -55,7 +54,7 @@ variable "source_ami_owners_x86_64" {
 variable "source_ami_name_filter_arm64" {
   description = "Name filter for the source arm64 AMI image"
   type        = string
-  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-*-24.04-arm64-server-*"
+  default     = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-arm64-server-*"
 }
 
 variable "source_ami_owners_arm64" {
@@ -177,6 +176,18 @@ variable "build_tags" {
   default     = {}
 }
 
+variable "build_retries" {
+  description = "Max retries for the build provisioner"
+  type        = number
+  default     = 3
+}
+
+variable "build_breakpoint_enabled" {
+  description = "Toggles the breakpoint provisioner enabling you to troubleshoot the build"
+  type        = bool
+  default     = false
+}
+
 ##########################
 # Communicator variables #
 ##########################
@@ -191,4 +202,14 @@ variable "ssh_username" {
   description = "The username to use when connecting over SSH"
   type        = string
   default     = "ubuntu"
+}
+
+######################
+# Manifest variables #
+######################
+
+variable "manifest_path" {
+  description = "Path to the manifest post-processor output"
+  type        = string
+  default     = "manifest.json"
 }

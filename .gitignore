@@ -1,5 +1,4 @@
 # IDEs
-
 .idea/
 
 # Cache objects
@@ -18,3 +17,7 @@ crash.log
 
 # For built boxes
 *.box
+
+# Build artifacts
+manifest.json
+build.log
