@@ -4,10 +4,12 @@ set -euxo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get -o DPkg::Lock::Timeout=300 -y full-upgrade
-apt-get -o DPkg::Lock::Timeout=300 -y install --only-upgrade kmod linux-image-virtual || true
-apt-get -o DPkg::Lock::Timeout=300 -y autoremove
-apt-get -o DPkg::Lock::Timeout=300 -y clean
+APT_OPTS=(-o DPkg::Lock::Timeout=300 -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30)
+
+apt-get "${APT_OPTS[@]}" -y full-upgrade
+apt-get "${APT_OPTS[@]}" -y install --only-upgrade kmod linux-image-virtual || true
+apt-get "${APT_OPTS[@]}" -y autoremove
+apt-get "${APT_OPTS[@]}" -y clean
 
 cat >/etc/modprobe.d/99-hardening-blocklist.conf <<'EOF'
 # Copy Fail
