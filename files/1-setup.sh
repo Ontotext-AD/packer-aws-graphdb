@@ -17,8 +17,10 @@ mkdir -p /etc/apt/keyrings
 wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | tee /etc/apt/keyrings/adoptium.asc
 
 # Install Tools
-apt-get -o DPkg::Lock::Timeout=300 update -y
-apt-get -o DPkg::Lock::Timeout=300 install -y bash-completion jq nvme-cli temurin-21-jdk unzip
+APT_OPTS=(-o DPkg::Lock::Timeout=300 -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30)
+
+apt-get "${APT_OPTS[@]}" update -y
+apt-get "${APT_OPTS[@]}" install -y bash-completion jq nvme-cli temurin-21-jdk unzip
 
 snap install yq
 
@@ -46,11 +48,11 @@ rm -rf ./awscliv2.zip ./aws
 dpkg -i -E ./amazon-cloudwatch-agent.deb
 rm amazon-cloudwatch-agent.deb
 
-# Move the prometheus and cloudwatch configurations
+# Copy the prometheus and cloudwatch configurations
 mkdir -p /etc/prometheus || true
-mv /tmp/prometheus.yaml /etc/prometheus/prometheus.yaml
+cp /tmp/prometheus.yaml /etc/prometheus/prometheus.yaml
 mkdir -p /etc/graphdb/ || true
-mv /tmp/cloudwatch-agent-config.json /etc/graphdb/cloudwatch-agent-config.json
+cp /tmp/cloudwatch-agent-config.json /etc/graphdb/cloudwatch-agent-config.json
 
 # Disable the agent by default, should be enabled explicitly in the EC2 if needed.
 amazon-cloudwatch-agent-ctl -a stop
