@@ -2,6 +2,13 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## 1.9.0
+
+- Fixed provisioner retries failing after a partial successful run: switched config/env/service file placement in `1-setup.sh` and `3-install-graphdb.sh` from `mv` to `cp` so a retry doesn't fail on an already-consumed `/tmp` source (GDB-15087)
+- Guarded GraphDB user creation and install steps in `3-install-graphdb.sh` to be safe to rerun on a provisioner retry
+- Added `Acquire::Retries` and timeout options to `apt-get` calls to tolerate transient Ubuntu mirror errors (503s)
+- Moved cleanup of the staged `/tmp` files to the end of the last provisioner script
+
 ## 1.8.0
 
 - Updated the GraphDB cluster proxy service to use an env file similar to the main GraphDB service
