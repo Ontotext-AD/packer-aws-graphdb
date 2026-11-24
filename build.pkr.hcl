@@ -21,7 +21,7 @@ build {
     environment_vars = [
       "GRAPHDB_VERSION=${var.graphdb_version}",
     ]
-    execute_command = "{{ .Vars }} sudo -E bash '{{ .Path }}'"
+    execute_command = "sudo env {{ .Vars }} bash '{{ .Path }}'"
     scripts = [
       "./files/1-setup.sh",
       "./files/2-hardening.sh",
