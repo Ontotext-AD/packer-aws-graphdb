@@ -2,6 +2,11 @@
 
 All notable changes to the Packer template for creating GraphDB AMIs will be documented in this file.
 
+## 1.10.0
+
+- Updated default Ubuntu version to 26.04 LTS (Resolute Raccoon)
+- Changed the shell provisioner `execute_command` to `sudo env {{ .Vars }} bash` so environment variables are passed reliably with `sudo-rs`, the default `sudo` on Ubuntu 26.04
+
 ## 1.9.0
 
 - Fixed provisioner retries failing after a partial successful run: switched config/env/service file placement in `1-setup.sh` and `3-install-graphdb.sh` from `mv` to `cp` so a retry doesn't fail on an already-consumed `/tmp` source (GDB-15087)
